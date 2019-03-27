@@ -20,14 +20,24 @@ public class Searcher {
                 list[temp.charAt(0) - 'a'].add(temp);
             }else{
                 list[temp.charAt(0) - 'A'].add(temp.toLowerCase());
-            }
-        }
+            }//if
+        }//while
         
-    }
+        System.out.println("Dictionary loaded...");
+        
+        
+        
+    }//searcher
+    /**
+     *@return dictionary list
+     */
     public MyLinkedList<String>[] getList(){
         return list;
-    }
+    }//getList
+    /**
+     *@return dictionary size
+     */
     public int getSize(){
         return size;
-    }
+    }//getSize
 }

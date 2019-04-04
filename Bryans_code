@@ -1,0 +1,139 @@
+package linkedlist;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class LinkedList<E> {
+    LinkedList<String>[] arr = new LinkedList[26];
+      private Node<E> head,tail;
+      int size = 0;
+      double correctCount = 0;
+      double incorrectCount = 0;
+      double totalWords = 0;
+    
+    public LinkedList(){
+        
+    }//contructor
+  
+    private static class Node<E>{
+            E element;
+            Node<E> next;
+            public Node(E element){
+                this.element = element;
+            }//contructor
+        }//Node
+    public void storeVariables(){
+        
+        File Dictionary = new File("random_dictionary.txt");
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = new LinkedList<>();
+            
+        }//for
+        
+        try{
+            String word;
+            int temp;
+            Scanner input = new Scanner(Dictionary);
+            while(input.hasNext()){
+                    word = input.next().toLowerCase();
+                   
+                    //System.out.println(word); *echo
+                    temp = (word.charAt(0) - 'a');
+                    arr[temp].add(word);
+            }//while
+        }//try
+        catch(Exception e){
+            System.out.println("File not found");
+        }//catch
+            
+        System.out.println("Dictionary loaded");
+    }//storeVariablesl
+   
+    public void add(E e){
+       
+        if(size == 0){
+            head = new Node<>(e);
+            size++;
+        }//if
+        else{
+            Node temp = new Node(e);
+            Node start  = head;
+            
+            while(start.next != null){
+                start = start.next;
+            }//while
+            start.next = temp;
+            tail = temp;
+            size++;
+        }//else
+    }//add
+    
+    public void compare(){
+          File Olive = new File("oliver.txt");
+          
+          try{
+            String word;   
+            int temp;
+            Scanner input = new Scanner(Olive);
+            while(input.hasNext()){
+               
+                word = input.next().toLowerCase();
+                word = word.replaceAll("[^a-zA-Z]","");
+                if(word.isEmpty()){//if the word is a space skip
+                    continue;
+                }//if
+                //System.out.println(word);
+                if(arr[word.charAt(0) - 'a'].contains(word) == true){
+                    correctCount++;
+                }//if
+                else{
+                    incorrectCount++;
+                }//else
+                totalWords++;
+            }//while
+             System.out.println("Oliver has " + totalWords + " words");
+        }//try      
+        catch(Exception e){
+            System.out.println("File not found");
+        }//catch
+           System.out.println("There were " + correctCount + " correct words found");
+           System.out.println("There were " + incorrectCount + " words not found");
+    }//compare    
+   
+    public boolean contains(E e) {
+      Node<E> current = head;
+      while(current.next != null){
+          if(e.equals(current.element)){
+              return true;
+          }//if
+          current = current.next;
+      }//while
+      return false;
+    }//contains
+    
+    public void seeChar(){
+        char d = 97; // uses asci value of a
+         //System.out.println(d);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println("There are "+arr[i].size + " words that start with " + d);
+            d++; //increases letter
+        }//for
+    }//seeChar
+    
+    public void avgWords(){
+        double avgFound = (totalWords  /correctCount);
+         double avgNotFound = (totalWords  /incorrectCount);
+        System.out.print("The average words found is ");
+        System.out.printf("%.2f",avgFound);
+        System.out.println("");
+        System.out.print("The average words not found is ");
+         System.out.printf("%.2f",avgNotFound);
+    }//avgWords
+    public static void main(String[] args) {
+        LinkedList hi = new LinkedList();
+        hi.storeVariables();
+        hi.seeChar();
+        hi.compare();
+        hi.avgWords();
+    }//main    
+}///linkedList
